@@ -182,66 +182,103 @@
             <br>
             <br>
 
+
+            <!-- Modal -->
+            <div class="modal fade" id="match-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                   
+                    </div>
+                </div>
+                </div>
+            </div>
+
+              <script>
+                // var friends = require("../data/friends.js");
+        
+        
+                $("#submit-btn").on("click", function (event) {
+                    event.preventDefault();
+        
+                    // convert users results to array of numbers
+        
+                    var score1 = $("#userScore1").val()
+                    var score2 = $("#userScore2").val()
+                    var score3 = $("#userScore3").val()
+                    var score4 = $("#userScore4").val()
+                    var score5 = $("#userScore5").val()
+                    var score6 = $("#userScore6").val()
+                    var score7 = $("#userScore7").val()
+                    var score8 = $("#userScore8").val()
+                    var score9 = $("#userScore9").val()
+                    var score10 = $("#userScore10").val()
+        
+                    // create object for user scores
+                    var newUser = {
+                        name: $("#userName").val().trim(),
+                        photo: $("#userPhoto").val().trim(),
+                        scores: [
+                            score1,
+                            score2,
+                            score3,
+                            score4,
+                            score5,
+                            score6,
+                            score7,
+                            score8,
+                            score9,
+                            score10
+                        ]
+                    };
+ 
+                    // post data to /api/surveys
+                    if(newUser.name.length > 0 && newUser.photo.length > 0 && newUser.scores.length === 10) {
+
+                    $.post("/api/friends", newUser, function (data) {
+                        // console.log(data);
+                        $(".modal-body").empty();
+
+                        var matchName = data.name;
+                        var imageUrl =  data.photo;
+                        var nameElem = $("<h3>").text(matchName);
+                        var imgElem = $("<img>").attr("src", imageUrl).attr("alt", "your match image");
+                        $(".modal-body").append(nameElem, imgElem);
+                        $("#match-modal").modal("show");
+
+                        // clear your form
+                        $("#userName").val("")
+                        $("#userPhoto").val("")
+                        $("#userScore1").val("")
+                        $("#userScore2").val("");
+                        $("#userScore3").val("");
+                        $("#userScore4").val("");
+                        $("#userScore5").val("");
+                        $("#userScore6").val("");
+                        $("#userScore7").val("");
+                        $("#userScore8").val("");
+                        $("#userScore9").val("");
+                        $("#userScore10").val("");  
+                      
+                    })
+                } else {
+                    $(".modal-body").empty();
+                    var msg = $("<h3>").text("Please complete the entire form");
+                    $(".modal-body").append(msg);
+                    $("#match-modal").modal("show"); }
+
+                })
+        
+            </script>
+
     </body>
-    <script>
-        // var friends = require("../data/friends.js");
-
-
-        $("#submit-btn").on("click", function (event) {
-            event.preventDefault();
-
-            // convert users results to array of numbers
-
-            var score1 = $("#userScore1").val()
-            var score2 = $("#userScore2").val()
-            var score3 = $("#userScore3").val()
-            var score4 = $("#userScore4").val()
-            var score5 = $("#userScore5").val()
-            var score6 = $("#userScore6").val()
-            var score7 = $("#userScore7").val()
-            var score8 = $("#userScore8").val()
-            var score9 = $("#userScore9").val()
-            var score10 = $("#userScore10").val()
-
-            // create object for user scores
-            var newUser = {
-                name: $("#userName").val().trim(),
-                photo: $("#userPhoto").val().trim(),
-                score: [
-                    score1,
-                    score2,
-                    score3,
-                    score4,
-                    score5,
-                    score6,
-                    score7,
-                    score8,
-                    score9,
-                    score10
-                ]
-            };
-
-            console.log(newUser)
-
-            // compare difference between current user's scores against that of other users question by question (no negative solutions)
-            var differenceArray = [];
-            // add up differences to calculate totalDifference
-            var totalDifference;
-            // newFriend object to be values of user input
-
-            // post data to /api/surveys
-            $.post("/api/friends", newUser, function (data) {
-                console.log(data);
-
-                for (var i = 0; i < inputScores.length; i++) {
-                    var differenceQi = inputScores[i] - friends[i].score[i]
-                }
-                differenceArray.push(differenceQi)
-            })
-            console.log(differenceArray)
-            // display name and picture of match in modal pop-up
-        })
-
-    </script>
-
     </html>
