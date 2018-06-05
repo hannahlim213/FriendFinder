@@ -184,9 +184,9 @@
 
     </body>
     <script>
-        var friends = require("../data/friends.js");
+        // var friends = require("../data/friends.js");
 
-        var inputScores = [];
+
         $("#submit-btn").on("click", function (event) {
             event.preventDefault();
 
@@ -195,17 +195,33 @@
             var score1 = $("#userScore1").val()
             var score2 = $("#userScore2").val()
             var score3 = $("#userScore3").val()
+            var score4 = $("#userScore4").val()
+            var score5 = $("#userScore5").val()
+            var score6 = $("#userScore6").val()
+            var score7 = $("#userScore7").val()
+            var score8 = $("#userScore8").val()
+            var score9 = $("#userScore9").val()
+            var score10 = $("#userScore10").val()
 
-            inputScores.push(score1, score2, score3)
-            // console.log(inputScores)
-
-            // newUser info in array
+            // create object for user scores
             var newUser = {
                 name: $("#userName").val().trim(),
                 photo: $("#userPhoto").val().trim(),
-                score: inputScores
-            }
-            // console.log(newUser)
+                score: [
+                    score1,
+                    score2,
+                    score3,
+                    score4,
+                    score5,
+                    score6,
+                    score7,
+                    score8,
+                    score9,
+                    score10
+                ]
+            };
+
+            console.log(newUser)
 
             // compare difference between current user's scores against that of other users question by question (no negative solutions)
             var differenceArray = [];
