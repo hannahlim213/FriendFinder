@@ -14,6 +14,7 @@
 
         <title>Page Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <!-- glyphicons from fontawesom.com -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
             crossorigin="anonymous">
@@ -21,7 +22,13 @@
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
             crossorigin="anonymous">
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+            img {
+                max-width: 100%;
+            }
+        </style>
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
@@ -212,15 +219,15 @@
         
                     // convert users results to array of numbers
         
-                    var score1 = $("#userScore1").val()
-                    var score2 = $("#userScore2").val()
-                    var score3 = $("#userScore3").val()
-                    var score4 = $("#userScore4").val()
-                    var score5 = $("#userScore5").val()
-                    var score6 = $("#userScore6").val()
-                    var score7 = $("#userScore7").val()
-                    var score8 = $("#userScore8").val()
-                    var score9 = $("#userScore9").val()
+                    var score1 =  $("#userScore1").val()
+                    var score2 =  $("#userScore2").val()
+                    var score3 =  $("#userScore3").val()
+                    var score4 =  $("#userScore4").val()
+                    var score5 =  $("#userScore5").val()
+                    var score6 =  $("#userScore6").val()
+                    var score7 =  $("#userScore7").val()
+                    var score8 =  $("#userScore8").val()
+                    var score9 =  $("#userScore9").val()
                     var score10 = $("#userScore10").val()
         
                     // create object for user scores
@@ -240,41 +247,52 @@
                             score10
                         ]
                     };
- 
+        
+                   // console.log(newUser)
+        
+                    // compare difference between current user's scores against that of other users question by question (no negative solutions)
+                    // var differenceArray = [];
+                    // // add up differences to calculate totalDifference
+                    // var totalDifference;
+                    // // newFriend object to be values of user input
+        
                     // post data to /api/surveys
-                    if(newUser.name.length > 0 && newUser.photo.length > 0 && newUser.scores.length === 10) {
+                    if(newUser.name.length > 0 && newUser.photo.length > 0 && newUser.scores.length === 10){
+                        $.post("/api/friends", newUser, function (data) {
+                            //console.log(data);
+                            $(".modal-body").empty();
 
-                    $.post("/api/friends", newUser, function (data) {
-                        // console.log(data);
+                            var matchName = data.name;
+                            var imageUrl =  data.photo;
+                            var nameElem = $("<h3>").text(matchName);
+                            var imgElem = $("<img>").attr("src", imageUrl).attr("alt", "your match image");
+                            $(".modal-body").append(nameElem, imgElem);
+                            $("#match-modal").modal("show");
+
+                            // clear your form
+                            $("#userName").val("");
+                            $("#userPhoto").val("");
+                            $("#userScore1").val("")
+                            $("#userScore2").val("");
+                            $("#userScore3").val("");
+                            $("#userScore4").val("");
+                            $("#userScore5").val("");
+                            $("#userScore6").val("");
+                            $("#userScore7").val("");
+                            $("#userScore8").val("");
+                            $("#userScore9").val("");
+                            $("#userScore10").val("");  
+                        }) 
+                    }
+                    else {
                         $(".modal-body").empty();
-
-                        var matchName = data.name;
-                        var imageUrl =  data.photo;
-                        var nameElem = $("<h3>").text(matchName);
-                        var imgElem = $("<img>").attr("src", imageUrl).attr("alt", "your match image");
-                        $(".modal-body").append(nameElem, imgElem);
+                        var msg = $("<h3>").text("please complete the entire form");
+                        $(".modal-body").append(msg);
+                        
                         $("#match-modal").modal("show");
 
-                        // clear your form
-                        $("#userName").val("")
-                        $("#userPhoto").val("")
-                        $("#userScore1").val("")
-                        $("#userScore2").val("");
-                        $("#userScore3").val("");
-                        $("#userScore4").val("");
-                        $("#userScore5").val("");
-                        $("#userScore6").val("");
-                        $("#userScore7").val("");
-                        $("#userScore8").val("");
-                        $("#userScore9").val("");
-                        $("#userScore10").val("");  
-                      
-                    })
-                } else {
-                    $(".modal-body").empty();
-                    var msg = $("<h3>").text("Please complete the entire form");
-                    $(".modal-body").append(msg);
-                    $("#match-modal").modal("show"); }
+                    }
+                   
 
                 })
         

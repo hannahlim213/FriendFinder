@@ -19,21 +19,23 @@ module.exports = function (app) {
         for(var i = 0; i<friends.length; i++){
             var currentFriend = friends[i];
             var currentFriendScores = friends[i]["scores"];
-            var totalDif;
 
-           // console.log("currentFriendScores", currentFriendScores)
+            var totalDiff = 0;
+
             for(var j = 0; j< currentFriendScores.length;j++){
-                totalDif += Math.abs(parseInt(currentFriendScores[j]) - parseInt(newFriendScores[j]));
+                totalDiff += Math.abs(parseInt(currentFriendScores[j]) - parseInt(newFriendScores[j]));
             }
-            if(totalDif<lowestDiff){
+           
+            if(totalDiff<lowestDiff){
                 lowestDiff = totalDiff;
                 bestMatch = currentFriend;
             }
+
            // matchedScoresArray.push(Math.abs(parseInt(req.body.scores[i] - parseInt(friends.scores[i]))))
         }
 
         friends.push(newFriendToBeMatched);
-        // console.log(bestMatch);
+        
         response.json(bestMatch);
         
     });
