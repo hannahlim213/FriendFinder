@@ -1,5 +1,5 @@
-# bamazon
-Friend Finder matches you with a someone who has similar answers to the survey as you. 
+# FriendFinder
+Friend Finder matches you with a someone who has similar answers to the survey as you. This app is deployed using Heroku.
 
 ## Getting Started
 
